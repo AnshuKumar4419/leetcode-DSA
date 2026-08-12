@@ -6,7 +6,7 @@ public:
         int l = 0, r = 0, maxlen = 0;
         while(r < n) {
             if(nums[r] == 0) zeros++;
-            if(zeros > k) {
+            while(zeros > k) {
                 if(nums[l] == 0) zeros--;
                 l++;
             }
