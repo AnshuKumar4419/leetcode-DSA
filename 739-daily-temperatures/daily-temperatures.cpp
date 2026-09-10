@@ -1,19 +1,28 @@
 class Solution {
 public:
     vector<int> dailyTemperatures(vector<int>& temp) {
-        stack<int> st;
         int n = temp.size();
-        vector<int> nums(n);
+        vector<int> nums(n, 0);
 
-        for(int i = n - 1; i >= 0; i--) {
-            while(!st.empty() && temp[i] >= temp[st.top()]) {
-                st.pop();
+        // Traverse backwards from the second-to-last element
+        for (int i = n - 2; i >= 0; i--) {
+            int j = i + 1;
+
+            // Jump forward using already computed answer values
+            while (j < n && temp[j] <= temp[i]) {
+                if (nums[j] == 0) {
+                    j = n; // No warmer day exists ahead
+                    break;
+                }
+                j += nums[j]; // Jump straight to the next warmer day
             }
-            if(!st.empty()) {
-                nums[i] = st.top() - i;
+
+            // If a warmer day was found within bounds
+            if (j < n) {
+                nums[i] = j - i;
             }
-            st.push(i);
         }
+
         return nums;
     }
 };
