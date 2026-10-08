@@ -18,7 +18,10 @@ public:
             if(st.find(s[left]) == st.end()) left++;
             if(st.find(s[right]) == st.end()) right--;
             if(st.find(s[left]) != st.end() && st.find(s[right]) != st.end()) {
-                swap(s[left], s[right]);
+                char temp = s[left];
+                s[left] = s[right];
+                s[right] = temp;
+                // swap(s[left], s[right]);
                 left++;
                 right--;
             }
