@@ -1,12 +1,22 @@
 class Solution {
 public:
-    int numberOfPoints(vector<vector<int>>& nums) {
-        unordered_set<int> st;
-        for(int i = 0; i < nums.size(); i++) {
-            for(int j = nums[i][0]; j <= nums[i][1]; j++) {
-                st.insert(j);
+    int numberOfPoints(vector<vector<int>>& nums) {vector<int> count(102, 0);
+
+        for (const auto& car : nums) {
+            count[car[0]]++;    
+            count[car[1] + 1]--;
+        }
+
+        int totalPoints = 0;
+        int currentCover = 0;
+
+        for (int i = 1; i <= 100; i++) {
+            currentCover += count[i];
+            if (currentCover > 0) {
+                totalPoints++;
             }
         }
-        return st.size();
+
+        return totalPoints;
     }
 };
