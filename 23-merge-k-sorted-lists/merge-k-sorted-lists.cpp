@@ -13,10 +13,10 @@ class Solution {
 public:
     ListNode* mergeKLists(std::vector<ListNode*>& lists) {
         auto cmp = [](ListNode* a, ListNode* b) {
-            return a->val > b->val; // Min-heap comparison
+            return a->val > b->val; 
         };
         
-        std::priority_queue<ListNode*, std::vector<ListNode*>, decltype(cmp)> minHeap(cmp);
+        priority_queue<ListNode*, vector<ListNode*>, decltype(cmp)> minHeap(cmp);
         
         for (ListNode* head : lists) {
             if (head) {
