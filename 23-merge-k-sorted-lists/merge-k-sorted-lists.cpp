@@ -11,41 +11,35 @@
 
 class Solution {
 public:
-    ListNode* merge2Lists(ListNode* l1, ListNode* l2) {
-        ListNode dummy;
+    ListNode* mergeKLists(std::vector<ListNode*>& lists) {
+        auto cmp = [](ListNode* a, ListNode* b) {
+            return a->val > b->val; // Min-heap comparison
+        };
+        
+        std::priority_queue<ListNode*, std::vector<ListNode*>, decltype(cmp)> minHeap(cmp);
+        
+        for (ListNode* head : lists) {
+            if (head) {
+                minHeap.push(head);
+            }
+        }
+        
+        ListNode dummy(0);
         ListNode* tail = &dummy;
         
-        while (l1 && l2) {
-            if (l1->val <= l2->val) {
-                tail->next = l1;
-                l1 = l1->next;
-            } else {
-                tail->next = l2;
-                l2 = l2->next;
-            }
+        while (!minHeap.empty()) {
+            ListNode* smallest = minHeap.top();
+            minHeap.pop();
+            
+            tail->next = smallest;
             tail = tail->next;
+            
+            if (smallest->next) {
+                minHeap.push(smallest->next);
+            }
         }
         
-        tail->next = l1 ? l1 : l2;
         return dummy.next;
     }
-
-    ListNode* mergeKLists(std::vector<ListNode*>& lists) {
-        if (lists.empty()) {
-            return nullptr;
-        }
-        if (lists.size() % 2 == 0) { 
-            lists.push_back(nullptr);
-        }
-        
-        int mid = lists.size() / 2;
-        for (int i = 1; i <= mid; ++i) {
-            lists[i] = merge2Lists(lists[i], lists[i - 1]); 
-        }
-        for (int i = 1; i <= mid; ++i) {
-            lists[lists.size() - i - 1] = merge2Lists(lists[lists.size() - i - 1], lists[lists.size() - i]); 
-        }
-        
-        return lists[mid];
-    }
 };
+
