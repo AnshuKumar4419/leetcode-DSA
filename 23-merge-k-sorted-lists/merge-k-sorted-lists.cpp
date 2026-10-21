@@ -9,37 +9,42 @@
  * };
  */
 
+
 class Solution {
 public:
-    ListNode* mergeKLists(std::vector<ListNode*>& lists) {
-        auto cmp = [](ListNode* a, ListNode* b) {
-            return a->val > b->val; 
-        };
-        
-        priority_queue<ListNode*, vector<ListNode*>, decltype(cmp)> minHeap(cmp);
-        
-        for (ListNode* head : lists) {
-            if (head) {
-                minHeap.push(head);
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        priority_queue<
+            pair<int, ListNode*>,
+            vector<pair<int, ListNode*>>,
+            greater<pair<int, ListNode*>>
+        > pq;
+
+        for (int i = 0; i < lists.size(); i++) {
+            if (lists[i]) {
+                pq.push({lists[i]->val, lists[i]});
             }
         }
-        
-        ListNode dummy(0);
-        ListNode* tail = &dummy;
-        
-        while (!minHeap.empty()) {
-            ListNode* smallest = minHeap.top();
-            minHeap.pop();
-            
-            tail->next = smallest;
-            tail = tail->next;
-            
-            if (smallest->next) {
-                minHeap.push(smallest->next);
+
+        ListNode* dummyNode = new ListNode(-1);
+        ListNode* temp = dummyNode;
+
+        while (!pq.empty()) {
+            auto it = pq.top();
+            pq.pop();
+
+            if (it.second->next) {
+                pq.push({
+                    it.second->next->val,
+                    it.second->next
+                });
             }
+
+            temp->next = it.second;
+            temp = temp->next;
         }
-        
-        return dummy.next;
+
+        return dummyNode->next;
     }
 };
+
 
