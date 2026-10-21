@@ -26,7 +26,7 @@ public:
             tail = tail->next;
         }
         
-        tail->next = l1 ? l1 : l2; // attach the leftover part
+        tail->next = l1 ? l1 : l2;
         return dummy.next;
     }
 
@@ -34,16 +34,16 @@ public:
         if (lists.empty()) {
             return nullptr;
         }
-        if (lists.size() % 2 == 0) { // make length odd
+        if (lists.size() % 2 == 0) { 
             lists.push_back(nullptr);
         }
         
         int mid = lists.size() / 2;
         for (int i = 1; i <= mid; ++i) {
-            lists[i] = merge2Lists(lists[i], lists[i - 1]); // left sweep →
+            lists[i] = merge2Lists(lists[i], lists[i - 1]); 
         }
         for (int i = 1; i <= mid; ++i) {
-            lists[lists.size() - i - 1] = merge2Lists(lists[lists.size() - i - 1], lists[lists.size() - i]); // right sweep ←
+            lists[lists.size() - i - 1] = merge2Lists(lists[lists.size() - i - 1], lists[lists.size() - i]); 
         }
         
         return lists[mid];
