@@ -11,16 +11,16 @@
  */
 class Solution {
 public:
-    void preOrderTraversal(TreeNode* root, vector<int> &v){
+    void inOrderTraversal(TreeNode* root, vector<int> &v){
         if(root == NULL)    return;
         
-        preOrderTraversal(root->left, v);
+        inOrderTraversal(root->left, v);
         v.push_back(root->val);
-        preOrderTraversal(root->right, v);      
+        inOrderTraversal(root->right, v);      
     }
     int kthSmallest(TreeNode* root, int k) {
         vector<int> v; 
-        preOrderTraversal(root, v);
+        inOrderTraversal(root, v);
         return v[k-1];
     }
 };
