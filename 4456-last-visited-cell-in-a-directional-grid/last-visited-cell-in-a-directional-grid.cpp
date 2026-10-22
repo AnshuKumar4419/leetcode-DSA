@@ -2,31 +2,23 @@ class Solution {
 public:
     vector<int> lastVisitedCell(vector<vector<char>>& grid) {
         int n = grid.size();
-        if (n == 0 || grid[0].empty())
-            return {-1, -1};
-
         int m = grid[0].size();
-        vector<vector<bool>> visited(n, vector<bool>(m, false));
-
+        set<pair<int,int>> visited;      
+        vector<int> ans = {0, 0};
         int i = 0, j = 0;
-        visited[i][j] = true;
+        visited.insert({0, 0});
 
         while (true) {
-            int ni = i, nj = j;
+            if      (grid[i][j] == 'R') j++;
+            else if (grid[i][j] == 'L') j--;
+            else if (grid[i][j] == 'D') i++;
+            else if (grid[i][j] == 'U') i--;
 
-            if (grid[i][j] == 'R') nj++;
-            else if (grid[i][j] == 'L') nj--;
-            else if (grid[i][j] == 'D') ni++;
-            else if (grid[i][j] == 'U') ni--;
+            if (i < 0 || i >= n || j < 0 || j >= m) return ans;
+            if (visited.count({i, j})) return ans;
 
-            if (ni < 0 || ni >= n || nj < 0 || nj >= m ||
-                visited[ni][nj]) {
-                return {i, j};
-            }
-
-            i = ni;
-            j = nj;
-            visited[i][j] = true;
+            ans = {i, j};
+            visited.insert({i, j});
         }
     }
 };
