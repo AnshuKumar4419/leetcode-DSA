@@ -10,7 +10,7 @@
  * };
  */
 class Solution {
-public:
+private:
     bool isSameTree(TreeNode* p, TreeNode* q) {
         if (!p && !q) return true;
         if (!p || !q) return false;
