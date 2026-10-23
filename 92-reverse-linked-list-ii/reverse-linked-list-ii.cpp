@@ -21,10 +21,10 @@ public:
         ListNode* cur = prev->next;
 
         for (int i = 0; i < right - left; i++) {
-            ListNode* temp = cur->next;
-            cur->next = temp->next;
-            temp->next = prev->next;
-            prev->next = temp;
+            ListNode* nxt = cur->next;
+            cur->next = nxt->next;
+            nxt->next = prev->next;
+            prev->next = nxt;
         }
 
         return dummy->next;  
