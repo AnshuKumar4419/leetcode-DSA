@@ -12,7 +12,7 @@
 class Solution {
 public:
     void inOrderTraversal(TreeNode* root, vector<int> &v){
-        if(root == NULL)    return;
+        if(root == NULL) return;
         
         inOrderTraversal(root->left, v);
         v.push_back(root->val);
