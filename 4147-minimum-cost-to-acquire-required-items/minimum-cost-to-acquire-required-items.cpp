@@ -1,13 +1,19 @@
-
 class Solution {
 public:
-    long long minimumCost(int cost1, int cost2, int costBoth, int need1, int need2) {
+    long long minimumCost(long long cost1, long long cost2, long long costBoth, long long need1, long long need2) {
+        long long ans = 0;
+
         long long mini = min(need1, need2);
+        if(costBoth <= (cost1 + cost2)) {
+            ans += (mini * costBoth);
+            need1 -= mini;
+            need2 -= mini;
+        }
+        if(costBoth <= cost1) ans += (costBoth * need1);
+        else ans += (cost1 * need1);
 
-        long long ans = mini * min(costBoth, cost1 + cost2);
-
-        ans += (need1 - mini) * min(cost1, costBoth);
-        ans += (need2 - mini) * min(cost2, costBoth);
+        if(costBoth <= cost2) ans += (costBoth * need2);
+        else ans += (cost2 * need2);
 
         return ans;
     }
