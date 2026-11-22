@@ -22,6 +22,7 @@ public:
         fast = head;
         ListNode* prev = nullptr;
         ListNode* curr = slow->next;
+        slow->next = nullptr;
 
         while(curr != NULL) {
             ListNode* next = curr->next;
