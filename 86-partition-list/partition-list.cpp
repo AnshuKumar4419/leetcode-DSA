@@ -11,24 +11,24 @@
 class Solution {
 public:
     ListNode* partition(ListNode* head, int x) {
+        ListNode* less = new ListNode(0);
+        ListNode* lessHead = less;
+        ListNode* greater = new ListNode(0);
+        ListNode* greaterHead = greater;
         ListNode* temp = head;
-        ListNode* small = new ListNode(0);
-        ListNode* smallHead = small;
-        ListNode* big = new ListNode(0);
-        ListNode* bigHead = big;
         while(temp != NULL) {
             if(temp->val < x) {
-                small->next = temp;
-                small = temp;
+                less->next = temp;
+                less = less->next;
             }
-            else if(temp->val >= x) {
-                big->next = temp;
-                big = temp;
+            else {
+                greater->next = temp;
+                greater = greater->next;
             }
             temp = temp->next;
         }
-        big->next = nullptr;
-        small->next = bigHead->next;
-        return smallHead->next;
+        greater->next = NULL;
+        less->next = greaterHead->next;
+        return lessHead->next;
     }
 };
