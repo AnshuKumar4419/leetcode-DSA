@@ -1,24 +1,19 @@
 class Solution {
 public:
     int maxLength(vector<int>& nums) {
+        int mask[11] = {0, 0, 1, 2, 1, 4, 3, 8, 1, 2, 5};
+
         int n = nums.size();
-        const long long LIMIT = 25200;   
-        int ans = 1;
+        int used = 0, l = 0;
+        int ans = 2;  
 
-        for (int i = 0; i < n; i++) {
-            for (int j = i; j < n; j++) {
-                long long prod = 1, g = 0, l = 1;
-                bool ok = true;
-
-                for (int k = i; k <= j; k++) {
-                    prod *= nums[k];
-                    if (prod > LIMIT) { ok = false; break; }
-                    g = gcd(g, (long long) nums[k]);
-                    l = lcm(l, (long long) nums[k]);
-                }
-
-                if (ok && prod == g * l) ans = max(ans, j - i + 1);
+        for (int r = 0; r < n; r++) {
+            while (used & mask[nums[r]]) {
+                used ^= mask[nums[l]];
+                l++;
             }
+            used |= mask[nums[r]];
+            ans = max(ans, r - l + 1);
         }
 
         return ans;
