@@ -11,60 +11,26 @@
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* dummyHead = new ListNode(0);
+        ListNode* curr = dummyHead;
         int carry = 0;
-        ListNode* temp1 = l1;
-        ListNode* temp2 = l2;
-        ListNode* dummy1 = new ListNode(0);
-        ListNode* dummy = dummy1;
 
-        while(temp1 != NULL && temp2 != NULL) {
-            int val = temp1->val + temp2->val;
-            val = val + carry;
-            if(val < 10) carry = 0;
-            if(val > 9) {
-                carry = 1;
-                val = val % 10;
+        while (l1 != nullptr || l2 != nullptr || carry != 0) {
+            int sum = carry;
+            if (l1 != nullptr) {
+                sum += l1->val;
+                l1 = l1->next;
             }
-            ListNode* Node = new ListNode(val);
-            dummy->next = Node;
-            dummy = dummy->next;
-
-            temp1 = temp1->next;
-            temp2 = temp2->next;
-        }
-        while(temp1 != NULL) {
-            int val = temp1->val;
-            val = val + carry;
-            if(val < 10) carry = 0;
-            if(val > 9) {
-                carry = 1;
-                val = val % 10;
+            if (l2 != nullptr) {
+                sum += l2->val;
+                l2 = l2->next;
             }
-            ListNode* Node = new ListNode(val);
-            dummy->next = Node;
-            dummy = dummy->next;
 
-            temp1 = temp1->next;
+            carry = sum / 10;
+            curr->next = new ListNode(sum % 10);
+            curr = curr->next;
         }
-        while(temp2 != NULL) {
-            int val = temp2->val;
-            val = val + carry;
-            if(val < 10) carry = 0;
-            if(val > 9) {
-                carry = 1;
-                val = val % 10;
-            }
-            ListNode* Node = new ListNode(val);
-            dummy->next = Node;
-            dummy = dummy->next;
 
-            temp2 = temp2->next;
-        }
-        if(carry == 1) {
-            ListNode* Node = new ListNode(1);
-            dummy->next = Node;
-            dummy = dummy->next;
-        }
-        return dummy1->next;
+        return dummyHead->next;
     }
 };
