@@ -1,17 +1,34 @@
 class Solution {
 public:
     bool canCross(vector<int>& stones) {
-        unordered_map<int, unordered_set<int>> mp;
-        mp[1] = {1};
 
-        for(int i = 1; i < stones.size(); i++) {
-            for(auto jumpSize : mp[stones[i]]) {
-                mp[stones[i] + jumpSize].insert(jumpSize);
-                mp[stones[i] + jumpSize + 1].insert(jumpSize + 1);
-                mp[stones[i] + jumpSize - 1].insert(jumpSize - 1);
+        // Stores all possible jump sizes at each stone
+        unordered_map<int, unordered_set<int>> dp;
+
+        // Initially, frog is at stone 1 and can jump 1 unit
+        dp[1].insert(1);
+
+        // Traverse all stones
+        for (int i = 1; i < stones.size(); i++) {
+
+            int currentStone = stones[i];
+
+            for (int jump : dp[currentStone]) {
+
+                int nextJump = jump;
+                dp[currentStone + nextJump].insert(nextJump);
+
+                nextJump = jump + 1;
+                dp[currentStone + nextJump].insert(nextJump);
+
+                nextJump = jump - 1;
+
+                if (nextJump > 0) {
+                    dp[currentStone + nextJump].insert(nextJump);
+                }
             }
         }
 
-        return mp[stones.back()].size() != 0;
+        return !dp[stones.back()].empty();
     }
 };
