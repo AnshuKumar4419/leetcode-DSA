@@ -10,44 +10,61 @@
  */
 class Solution {
 public:
-    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) 
-    {
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        int carry = 0;
         ListNode* temp1 = l1;
         ListNode* temp2 = l2;
-        int carry = 0;
+        ListNode* dummy1 = new ListNode(0);
+        ListNode* dummy = dummy1;
 
-        ListNode* dummy = new ListNode(0);
-        ListNode* curr = dummy;
-
-        while(temp1 != NULL || temp2 != NULL || carry != 0)
-        {
-            int x = 0, y = 0;
-            if(temp1 != NULL)
-            {
-                x = temp1->val;
+        while(temp1 != NULL && temp2 != NULL) {
+            int val = temp1->val + temp2->val;
+            val = val + carry;
+            if(val < 10) carry = 0;
+            if(val > 9) {
+                carry = 1;
+                val = val % 10;
             }
-            else
-            {
-                x = 0;
-            }
-            if(temp2 != NULL)
-            {
-                y = temp2->val;
-            }
-            else
-            {
-                y = 0;
-            }
-            int sum = x + y + carry;
+            ListNode* Node = new ListNode(val);
+            dummy->next = Node;
+            dummy = dummy->next;
 
-            carry = sum / 10;
-
-            curr->next = new ListNode(sum % 10);
-            curr = curr->next;
-
-            if(temp1 != NULL) temp1 = temp1->next;
-            if(temp2 != NULL) temp2 = temp2->next;
+            temp1 = temp1->next;
+            temp2 = temp2->next;
         }
-        return dummy->next;
+        while(temp1 != NULL) {
+            int val = temp1->val;
+            val = val + carry;
+            if(val < 10) carry = 0;
+            if(val > 9) {
+                carry = 1;
+                val = val % 10;
+            }
+            ListNode* Node = new ListNode(val);
+            dummy->next = Node;
+            dummy = dummy->next;
+
+            temp1 = temp1->next;
+        }
+        while(temp2 != NULL) {
+            int val = temp2->val;
+            val = val + carry;
+            if(val < 10) carry = 0;
+            if(val > 9) {
+                carry = 1;
+                val = val % 10;
+            }
+            ListNode* Node = new ListNode(val);
+            dummy->next = Node;
+            dummy = dummy->next;
+
+            temp2 = temp2->next;
+        }
+        if(carry == 1) {
+            ListNode* Node = new ListNode(1);
+            dummy->next = Node;
+            dummy = dummy->next;
+        }
+        return dummy1->next;
     }
 };
